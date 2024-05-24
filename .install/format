@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# Define a function to display script usage
+usage() {
+  echo "Usage: $0 [OPTIONS]"
+  echo "Options:"
+  echo "  --hdd /dev/sda        The hard disk on which the operating system will be installed on."
+  echo "                        Default: /dev/sda" 
+  exit 1
+}
+
+# Default values
+hdd=/dev/sda
+
+# Parse command line options
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --hdd)
+      hdd = "$2"
+      shift 2
+      ;;
+    --help)
+      usage
+      ;;
+    *)
+     usage
+     ;;
+  esac
+done
+
+parted $hdd mklabel msdos --script
+parted $hdd mkpart primary ext4 1MB 100% --script
+parted $hdd set 1 boot on --script
+
+mkfs.ext4 -F -L nixos $hdd"1"

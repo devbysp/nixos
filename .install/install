@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# Define a function to display script usage
+usage() {
+  echo "Usage: $0 [OPTIONS]"
+  echo "Options:"
+  echo "  --machine nixos       Machine name from the nixos configuration to be configured"
+  echo "                        Default: nixos" 
+  exit 1
+}
+
+# Default values
+machine=nixos
+
+# Parse command line options
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --machine)
+      machine="$2"
+      shift 2
+      ;;
+    --help)
+      usage
+      ;;
+    *)
+     usage
+     ;;
+  esac
+done
+
+mount /dev/sda1 /mnt
+nix-shell -p git --run "nixos-install --flake ./nixos#$machine" --experimental-features "nix-command flakes"

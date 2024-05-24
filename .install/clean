@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Delete all old generations, keeping the current and previous two
+sudo nix-env --delete-generations old --profile /nix/var/nix/profiles/system
+
+# Run garbage collection to remove unreferenced packages
+sudo nix-collect-garbage -d
+
+# Delete old user profile generations
+sudo nix-env --delete-generations old
