@@ -35,7 +35,6 @@ in
 
   # Select internationalisation properties.
   i18n.defaultLocale = locale_nationality;
-
   i18n.extraLocaleSettings = {
     LC_ADDRESS = locale_citizenship;
     LC_IDENTIFICATION = locale_nationality;
@@ -101,7 +100,10 @@ in
       description = fullName;
       hashedPassword = "$6$PLahWm2.bhzuU3e1$bov.myBOD66qyR7Iduf2MZ0XAI0yKO0oqhbzlwlCqfeyqY/7uU3UbK2OdWmc/mRxSaeBeijxWEemeRwymNaDt/";
       extraGroups = [ "networkmanager" "wheel" ];
-      packages = with pkgs; [];
+      packages = with pkgs; [
+	nix-prefetch-git
+        nix-prefetch-url
+      ];
     };
     defaultUserShell = pkgs.zsh;
   };

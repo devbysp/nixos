@@ -4,6 +4,7 @@
   # Import submodules
   imports = [
     ./shell/sh.nix
+    ./apps/neovim/neovim.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -22,22 +23,31 @@
 
   # Enable programs 
   programs = {
-    neovim.enable = true;
     git.enable = true;
     htop.enable = true;
     firefox.enable = true;
+    java = {
+      enable = true;
+      package = pkgs.openjdk8; # pkgs.oraclejre8;
+    };
   };
+
+  # Enable neovim
+  neovim.enable = true;
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
     # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
+    ## "Hello, world!" when run.
     # pkgs.hello
     neofetch
     wget
     tldr
     ranger
+    ripgrep
+    nodejs
+    maven
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -80,7 +90,7 @@
   #  /etc/profiles/per-user/magyariz/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    EDITOR = "nvim";
+    # EDITOR = "nvim";
   };
 
   # Let Home Manager install and manage itself.
